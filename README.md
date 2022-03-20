@@ -1,3 +1,3 @@
 ## Ama protobufer files
 
-Here you can all needed protobuf files needed by 
+Here you can find all needed protobuf files needed by `ama`
