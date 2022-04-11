@@ -1,7 +1,7 @@
 syntax = "proto2";
 
 message Hash {
-  string value =1;
+  string value = 1;
   string type = 2;
   string salt = 3 [default = ""];
   optional string plaintext = 4;
