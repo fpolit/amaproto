@@ -11,5 +11,5 @@ message RegisterHashRequest {
 
 service AmaDB {
   rpc register_hash(RegisterHashRequest) returns (ReturnStatus);
-  rpc get_workspace_loot(Workspace) return (WorkspaceLoot)
+  rpc get_loot_hashes(Workspace) return (stream Hash);
 }
