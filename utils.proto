@@ -1,0 +1,6 @@
+syntax = "proto2";
+
+message ReturnStatus {
+  int32 status = 1 [default = 0];
+  string details = 2;
+}

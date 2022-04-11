@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+import "hash.proto";
+import "workspace.proto";
+import "utils.proto";
+
+message RegisterHashRequest {
+  Hash hash = 1;
+  Workspace workspace = 2;
+}
+
+service AmaDB {
+  rpc register_hash(RegisterHashRequest) returns (ReturnStatus);
+  rpc get_workspace_loot(Workspace) return (WorkspaceLoot)
+}

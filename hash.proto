@@ -1,0 +1,20 @@
+syntax = "proto2";
+
+message Hash {
+  string value =1;
+  string type = 2;
+  string salt = 3 [default = ""];
+  optional string plaintext = 4;
+  enum HashStatus {
+    CRACKED = 0;
+    UNCRACKED = 1;
+  }
+  HashStatus status = 5 [default = HashStatus.UNCRACKED];
+}
+
+// message Credentials {
+//   string user = 1;
+//   string password = 2;
+//   string service = 3;
+//   string details = 4;
+// }
