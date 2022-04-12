@@ -28,7 +28,6 @@ message(DEBUG "Python3_EXECUTABLE: ${Python3_EXECUTABLE}")
 
 INCLUDE_DIRECTORIES(${PROTOBUF_INCLUDE_DIR})
 
-file(GLOB ALL_PROTOBUF_FILES *.proto)
 list(APPEND AMADB_PROTOBUF_FILES
   amadb.proto
   hash.proto
@@ -36,18 +35,10 @@ list(APPEND AMADB_PROTOBUF_FILES
   workspace.proto
 )
 
-foreach(PROTOBUF_FILE ${ALL_PROTOBUF_FILES})
-  get_filename_component(PROTOBUF_FILE_NAME ${PROTOBUF_FILE} NAME)
-  message(STATUS "(foeach loop) PROTOBUF_FILE: ${PROTOBUF_FILE}")
-  if(CMAKE_BUILD_AMADB_PROTO)
-    list(FIND AMADB_PROTOBUF_FILES ${PROTOBUF_FILE_NAME} _found)
-    if(NOT _found EQUAL -1)
-      protobuf_generate_python(PY_PROTO ${PROTOBUF_FILE})
-      list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
-    endif()
-  endif()
-endforeach()
-
+if(CMAKE_BUILD_AMADB_PROTO)
+  protobuf_generate_python(AMADB_PY_PROTO ${AMADB_PROTOBUF_FILES})
+  list(APPEND AMADB_GENERATED_PY_PROTOS ${AMADB_PY_PROTO})
+endif()
 
 if(CMAKE_BUILD_AMADB_PROTO)
   message(STATUS "AMADB_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
