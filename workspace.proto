@@ -1,7 +1,5 @@
 syntax = "proto2";
 
-import "hash.proto";
-
 message Workspace {
   required string id = 1;
   required string name = 2;
