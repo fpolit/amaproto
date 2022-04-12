@@ -45,4 +45,4 @@ endif()
 #  add_custom_target(amadb_pyprotos ALL
 #    DEPENDS ${AMADB_GENERATED_PY_PROTOS}
 #  )
-endif()
+#endif()
