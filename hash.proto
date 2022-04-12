@@ -3,11 +3,11 @@ syntax = "proto2";
 message Hash {
   required string value = 1;
   optional string type = 2;
-  optional string salt = 3 [default = ""];
+  required string salt = 3 [default = ""];
   optional string plaintext = 4;
   enum HashStatus {
-    CRACKED = 0;
-    UNCRACKED = 1;
+    UNCRACKED = 0;
+    CRACKED = 1;
   }
   required HashStatus status = 5 [default = HashStatus.UNCRACKED];
 }
