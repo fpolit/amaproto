@@ -3,6 +3,6 @@ syntax = "proto2";
 import "hash.proto";
 
 message Workspace {
-  string id = 1;
-  string name = 2;
+  required string id = 1;
+  required string name = 2;
 }

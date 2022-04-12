@@ -5,8 +5,8 @@ import "workspace.proto";
 import "utils.proto";
 
 message RegisterHashRequest {
-  Hash hash = 1;
-  Workspace workspace = 2;
+  required Hash hash = 1;
+  required Workspace workspace = 2;
 }
 
 service AmaDB {

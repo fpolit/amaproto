@@ -1,15 +1,15 @@
 syntax = "proto2";
 
 message Hash {
-  string value = 1;
-  string type = 2;
-  string salt = 3 [default = ""];
+  required string value = 1;
+  optional string type = 2;
+  optional string salt = 3 [default = ""];
   optional string plaintext = 4;
   enum HashStatus {
     CRACKED = 0;
     UNCRACKED = 1;
   }
-  HashStatus status = 5 [default = HashStatus.UNCRACKED];
+  required HashStatus status = 5 [default = HashStatus.UNCRACKED];
 }
 
 // message Credentials {
