@@ -68,4 +68,13 @@ if(CMAKE_BUILD_AMADB_PROTO)
 
   add_custom_target(amadb_protos ALL
     DEPENDS ${AMADB_GENERATED_PROTOS})
+
+  # copy generated proto files to ${AMADB_PROTO_DESTINATION}
+  if(EXISTS ${AMADB_PROTO_DESTINATION})
+    foreach(GENERATED_PROTOBUF_FILE ${AMADB_GENERATED_PROTOS})
+      add_custom_command(TARGET amadb_protos POST_BUILD
+        COMMAND ${CMAKE_EXECUTABLE} -E copy ${GENERATED_PROTOBUF_FILE} ${AMADB_PROTO_DESTINATION}
+      )
+    endforeach()
+  endif()
 endif()
