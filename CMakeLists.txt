@@ -43,4 +43,12 @@ if(CMAKE_BUILD_AMADB_PROTO)
   add_custom_target(amadb_pyprotos ALL
     DEPENDS ${AMADB_GENERATED_PY_PROTOS}
   )
+
+  foreach(AMADB_PY_PROTO ${AMADB_GENERATED_PY_PROTOS})
+    message(DEBUG "(loop) AMADB_PY_PROTO: ${AMADB_PY_PROTO}")
+    add_custom_command(TARGET amadb_pyprotos POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy ${AMADB_PY_PROTO} ${AMADB_PY_PROTO_DESTINATION}
+      COMMENT "(DEBUG) Copying python proto file ${AMADB_PY_PROTO} to ${AMADB_PY_PROTO_DESTINATION}"
+    )
+  endforeach()
 endif()
