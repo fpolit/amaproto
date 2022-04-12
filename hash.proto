@@ -9,7 +9,7 @@ message Hash {
     UNCRACKED = 0;
     CRACKED = 1;
   }
-  required HashStatus status = 5 [default = HashStatus.UNCRACKED];
+  required HashStatus status = 5 [default = UNCRACKED];
 }
 
 // message Credentials {
