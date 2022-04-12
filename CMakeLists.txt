@@ -28,8 +28,8 @@ message(DEBUG "Python3_EXECUTABLE: ${Python3_EXECUTABLE}")
 
 file(GLOB ALL_PROTOBUF_FILES *.proto)
 
-set(AMADB_GENERATED_PY_PROTOS "")
-file(APPEND AMADB_PROTOBUF_FILES
+#set(AMADB_GENERATED_PY_PROTOS "")
+list(APPEND AMADB_PROTOBUF_FILES
   amadb.proto
   hash.proto
   utils.proto
@@ -38,10 +38,10 @@ file(APPEND AMADB_PROTOBUF_FILES
 
 foreach(PROTOBUF_FILE ${ALL_PROTOBUF_FILES})
   get_filename_component(PROTOBUF_FILE_NAME ${PROTOBUF_FILE} NAME)
-
-  if(${CMAKE_BUILD_AMADB_PROTO})
-    list(FIND AMADB_PROTOBUF_FILES ${PROTOBUF_FILE_NAME} found_protobuf)
-    if(NOT found_protobuf EQUAL -1)
+  message(STATUS "(foeach loop) PROTOBUF_FILE: ${PROTOBUF_FILE}")
+  if(CMAKE_BUILD_AMADB_PROTO)
+    list(FIND AMADB_PROTOBUF_FILES ${PROTOBUF_FILE_NAME} _found)
+    if(NOT _found EQUAL -1)
       protobuf_generate_python(PY_PROTO ${PROTOBUF_FILE})
       list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
     endif()
@@ -49,7 +49,8 @@ foreach(PROTOBUF_FILE ${ALL_PROTOBUF_FILES})
 endforeach()
 
 
-if(${CMAKE_BUILD_AMADB_PROTO})
+if(CMAKE_BUILD_AMADB_PROTO)
+  message(STATUS "AMADB_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
   add_custom_target(amadb_pyprotos ALL
     DEPENDS ${AMADB_GENERATED_PY_PROTOS}
   )
