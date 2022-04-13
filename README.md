@@ -1,6 +1,6 @@
-## Ama-Framework protobufer files
+## amaproto
 
-Protobuf files to enable RPC communication between `Ama-Framework` components.
+Protobuf files to perform RPC communication between `Ama-Framework` components.
 
 >    Please do not use `Ama-Framework` in military or secret service organizations,
 >                     or for illegal purposes.
