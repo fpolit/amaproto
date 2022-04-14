@@ -11,7 +11,7 @@ message ModuleFilter {
 }
 
 extend Module {
-  string amaproc_node = 101;
+  required string amaproc_node = 101;
 }
 
 extend ReturnStatus {
