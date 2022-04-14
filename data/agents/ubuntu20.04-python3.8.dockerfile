@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt -y update && apt -y full-upgrade
+RUN apt-get -y update && apt-get -y full-upgrade
 RUN apt -y install gcc g++ python3.8 python3.8-dev libprotobuf-dev # required dependencies
 RUN apt -y install python3-setuptools python3-pip git make cmake sudo # build dependencies
 
