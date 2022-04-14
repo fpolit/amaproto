@@ -7,5 +7,5 @@ import "requests.proto";
 
 
 service AmaController {
-  rpc submit_module(SubmitModuleRequest) return (ReturnStatus);
+  rpc submit_module(SubmitModuleRequest) returns (ReturnStatus);
 }
