@@ -1,0 +1,8 @@
+syntax='proto2';
+
+import "option.proto";
+
+message Module {
+  required string name = 1;
+  required map<string, Option> options = 2;
+}

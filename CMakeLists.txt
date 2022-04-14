@@ -9,22 +9,25 @@ project(amaproto
 set(PROJECT_LICENSE "GPLv3")
 
 # options
-option(CMAKE_BUILD_AMADB_PROTO  "Build amadb protobuf files" OFF)
-option(CMAKE_BUILD_AMACONSOLE_PROTO  "Build amaconsole protobuf files" OFF)
-option(CMAKE_BUILD_AMAPROCESSOR_PROTO  "Build amaprocessor protobuf files" OFF)
-option(CMAKE_BUILD_AMACONTROLLER_PROTO  "Build amacontroller protobuf files" OFF)
+option(CMAKE_BUILD_AMADB_PY_PROTO  "Build amadb python protobuf files" OFF)
+option(CMAKE_BUILD_AMADB_CXX_PROTO  "Build amadb c++ protobuf files" OFF)
+option(CMAKE_BUILD_AMACONTROLLER_PY_PROTO  "Build amacontroller python protobuf files" OFF)
+option(CMAKE_BUILD_AMACONTROLLER_CXX_PROTO  "Build amacontroller c++ protobuf files" OFF)
+option(CMAKE_BUILD_AMAPROCESSOR_PROTO  "Build amaprocessor protobuf files" OFF )# CXX protobuf files
 
 # Finding dependencies
 find_package(Protobuf REQUIRED)
 find_package(Python3  COMPONENTS Interpreter REQUIRED)
 
 # enviroment information
-message(DEBUG "CMAKE_BUILD_AMADB_PROTO: ${CMAKE_BUILD_AMADB_PROTO}")
-message(DEBUG "CMAKE_BUILD_AMACONSOLE_PROTO: ${CMAKE_BUILD_AMACONSOLE_PROTO}")
-message(DEBUG "CMAKE_BUILD_AMAPROCESSOR_PROTO: ${CMAKE_BUILD_AMAPROCESSOR_PROTO}")
-message(DEBUG "CMAKE_BUILD_AMACONTROLLER_PROTO: ${CMAKE_BUILD_AMACONTROLLER_PROTO}")
 message(DEBUG "CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 message(DEBUG "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
+message(DEBUG "Python_VERSION: ${Python_VERSION}")
+message(DEBUG "CMAKE_BUILD_AMADB_PY_PROTO: ${CMAKE_BUILD_AMADB_PY_PROTO}")
+message(DEBUG "CMAKE_BUILD_AMADB_CXX_PROTO: ${CMAKE_BUILD_AMADB_CXX_PROTO}")
+message(DEBUG "CMAKE_BUILD_AMACONTROLLER_PY_PROTO: ${CMAKE_BUILD_AMACONTROLLER_PY_PROTO}")
+message(DEBUG "CMAKE_BUILD_AMACONTROLLER_CXX_PROTO: ${CMAKE_BUILD_AMACONTROLLER_CXX_PROTO}")
+message(DEBUG "CMAKE_BUILD_AMAPROCESSOR_PROTO: ${CMAKE_BUILD_AMAPROCESSOR_PROTO}")
 
 INCLUDE_DIRECTORIES(${PROTOBUF_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -47,6 +50,8 @@ function(protobuf_service_generate_python PY_PROTO PROTOBUF_FILES)
   set(PY_PROTO ${GENERATED_PROTO_FILES} PARENT_SCOPE)
 endfunction()
 
+
+# AMADB protobuf files
 list(APPEND AMADB_PROTOBUF_MESSAGES
   hash.proto
   utils.proto
@@ -56,25 +61,64 @@ list(APPEND AMADB_PROTOBUF_MESSAGES
 list(APPEND AMADB_PROTOBUF_SERVICES
   amadb.proto
 )
+list(APPEND AMADB_PROTOBUF_FILES ${AMADB_PROTOBUF_MESSAGES} ${AMADB_PROTOBUF_SERVICES})
 
-if(CMAKE_BUILD_AMADB_PROTO)
-  protobuf_generate_python(PY_PROTO ${AMADB_PROTOBUF_MESSAGES}) # generate only message protos
-  list(APPEND AMADB_GENERATED_PROTOS ${PY_PROTO})
 
-  protobuf_service_generate_python(PY_PROTO ${AMADB_PROTOBUF_SERVICES})
-  list(APPEND AMADB_GENERATED_PROTOS ${PY_PROTO})
+# AMACONTROLLER protobuf files
+list(APPEND AMACONTROLLER_PROTOBUF_MESSAGES
+  workspace.proto
+  options.proto
+  module.proto
+  utils.proto
+  requests.proto
+)
+list(APPEND AMACONTROLLER_PROTOBUF_SERVICES
+  amactl.proto
+)
+list(APPEND AMACONTROLLER_PROTOBUF_FILES ${AMACONTROLLER_PROTOBUF_MESSAGES} ${AMACONTROLLER_PROTOBUF_SERVICES})
 
-  message(DEBUG "AMADB_GENERATED_PROTOS: ${AMADB_GENERATED_PROTOS}")
+# AMAPROCESSOR protobuf files
+list(APPEND AMAPROCESSOR_PROTOBUF_FILES
+  options.proto
+  utils.proto
+  requests.proto
+  module.proto
+  amaproc.proto
+)
 
-  add_custom_target(amadb_protos ALL
-    DEPENDS ${AMADB_GENERATED_PROTOS})
 
-  # copy generated proto files to ${AMADB_PROTO_DESTINATION}
-  if(EXISTS ${AMADB_PROTO_DESTINATION})
-    foreach(GENERATED_PROTOBUF_FILE ${AMADB_GENERATED_PROTOS})
-      add_custom_command(TARGET amadb_protos POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${GENERATED_PROTOBUF_FILE} ${AMADB_PROTO_DESTINATION}
-      )
-    endforeach()
+if(CMAKE_BUILD_AMADB_PY_PROTO OR CMAKE_BUILD_AMADB_CXX_PROTO)
+  add_custom_target(amadb_protos ALL)
+  if(CMAKE_BUILD_AMADB_PY_PROTO)
+    protobuf_generate_python(PY_PROTO ${AMADB_PROTOBUF_MESSAGES}) # generate only message protos
+    list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
+
+    protobuf_service_generate_python(PY_PROTO ${AMADB_PROTOBUF_SERVICES})
+    list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
+
+    message(DEBUG "AMADB_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
+    add_dependencies(amadb_protos ${AMADB_GENERATED_PY_PROTOS})
+
+    # copy generated proto files to AMADB_PROTO_DESTINATION
+    if(EXISTS ${AMADB_PROTO_DESTINATION})
+      foreach(GENERATED_PROTOBUF_FILE ${AMADB_GENERATED_PROTOS})
+        add_custom_command(TARGET amadb_protos POST_BUILD
+          COMMAND ${CMAKE_COMMAND} -E copy ${GENERATED_PROTOBUF_FILE} ${AMADB_PROTO_DESTINATION})
+      endforeach()
+    endif()
   endif()
+
+  if(CMAKE_BUILD_AMADB_CXX_PROTO)
+    protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMADB_PROTOBUF_FILES})
+    add_library(amadb_cxx_protos ${CXX_PROTO} ${CXX_PROTO_HEADERS})
+    add_dependencies(amadb_protos amadb_cxx_protos)
+  endif()
+endif()
+
+if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO OR CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
+
+endif()
+
+if(CMAKE_BUILD_AMAPROCESSOR_PROTO)
+
 endif()

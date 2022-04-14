@@ -1,0 +1,24 @@
+syntax='proto2';
+
+import "module.proto";
+import "utils.proto";
+import "requests.proto"
+
+message ModuleFilter {
+  optional string name = 1;
+  optional string type = 2;
+  optional string subtype = 3;
+}
+
+extend Module {
+  string amaproc_node = 101;
+}
+
+extend ReturnStatus {
+  required uint64 jobid = 100;
+}
+
+service AmaProcessor {
+  rpc report_modules(ModuleFilter) returns (stream Module);
+  rpc process_module(SubmitModuleRequest) returns (ReturnStatus);
+}
