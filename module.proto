@@ -3,6 +3,7 @@ syntax='proto2';
 import "option.proto";
 
 message Module {
+  extensions 1000 to max;
   required string name = 1;
   map<string, Option> options = 2;
 }
