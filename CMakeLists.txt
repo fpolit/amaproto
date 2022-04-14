@@ -8,7 +8,12 @@ project(amaproto
 
 set(PROJECT_LICENSE "GPLv3")
 
-# options
+option(CMAKE_COMPILER_WALL "Warning all" ON)
+if(${CMAKE_COMPILER_WALL})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+endif()
+
+# protobuf options
 option(CMAKE_BUILD_AMADB_PY_PROTO  "Build amadb python protobuf files" OFF)
 option(CMAKE_BUILD_AMADB_CXX_PROTO  "Build amadb c++ protobuf files" OFF)
 option(CMAKE_BUILD_AMACONTROLLER_PY_PROTO  "Build amacontroller python protobuf files" OFF)
