@@ -46,9 +46,7 @@ pipeline{
 
         stage('Tests') {
             steps {
-                sh '''
-                make -C build pytest
-                '''
+                sh 'make -C build pytest'
             }
         }
     }
