@@ -3,7 +3,7 @@ syntax='proto2';
 import "module.proto";
 import "utils.proto";
 import "workspace.proto";
-import "requests.proto"
+import "requests.proto";
 
 
 service AmaController {

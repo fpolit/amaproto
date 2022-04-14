@@ -2,7 +2,7 @@ syntax='proto2';
 
 import "module.proto";
 import "utils.proto";
-import "requests.proto"
+import "requests.proto";
 
 message ModuleFilter {
   optional string name = 1;
