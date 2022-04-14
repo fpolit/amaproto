@@ -89,7 +89,7 @@ list(APPEND AMAPROCESSOR_PROTOBUF_FILES
 
 
 if(CMAKE_BUILD_AMADB_PY_PROTO OR CMAKE_BUILD_AMADB_CXX_PROTO)
-  #add_custom_target(amadb_protos ALL)
+  add_custom_target(amadb_protos ALL)
   if(CMAKE_BUILD_AMADB_PY_PROTO)
     protobuf_generate_python(PY_PROTO ${AMADB_PROTOBUF_MESSAGES}) # generate only message protos
     list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
@@ -100,7 +100,7 @@ if(CMAKE_BUILD_AMADB_PY_PROTO OR CMAKE_BUILD_AMADB_CXX_PROTO)
     message(DEBUG "AMADB_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
     add_custom_target(amadb_py_protos ALL
       DEPENDS ${AMADB_GENERATED_PY_PROTOS})
-    #add_dependencies(amadb_protos amadb_py_protos)
+    add_dependencies(amadb_protos amadb_py_protos)
 
     # copy generated proto files to AMADB_PROTO_DESTINATION
     # if(EXISTS ${AMADB_PY_PROTO_DESTINATION})
