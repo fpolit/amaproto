@@ -97,7 +97,9 @@ if(CMAKE_BUILD_AMADB_PY_PROTO OR CMAKE_BUILD_AMADB_CXX_PROTO)
     list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
 
     message(DEBUG "AMADB_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
-    add_dependencies(amadb_protos ${AMADB_GENERATED_PY_PROTOS})
+    add_custom_target(amadb_py_protos ALL
+      DEPENDS ${AMADB_GENERATED_PY_PROTOS})
+    add_dependencies(amadb_protos amadb_py_protos)
 
     # copy generated proto files to AMADB_PROTO_DESTINATION
     if(EXISTS ${AMADB_PROTO_DESTINATION})
@@ -115,37 +117,37 @@ if(CMAKE_BUILD_AMADB_PY_PROTO OR CMAKE_BUILD_AMADB_CXX_PROTO)
   endif()
 endif()
 
-if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO OR CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
-  add_custom_target(amacontroller_protos ALL)
-  if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO)
-    protobuf_generate_python(PY_PROTO ${AMACONTROLLER_PROTOBUF_MESSAGES}) # generate only message protos
-    list(APPEND AMACONTROLLER_GENERATED_PY_PROTOS ${PY_PROTO})
+# if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO OR CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
+#   add_custom_target(amacontroller_protos ALL)
+#   if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO)
+#     protobuf_generate_python(PY_PROTO ${AMACONTROLLER_PROTOBUF_MESSAGES}) # generate only message protos
+#     list(APPEND AMACONTROLLER_GENERATED_PY_PROTOS ${PY_PROTO})
 
-    protobuf_service_generate_python(PY_PROTO ${AMACONTROLLER_PROTOBUF_SERVICES})
-    list(APPEND AMACONTROLLER_GENERATED_PY_PROTOS ${PY_PROTO})
+#     protobuf_service_generate_python(PY_PROTO ${AMACONTROLLER_PROTOBUF_SERVICES})
+#     list(APPEND AMACONTROLLER_GENERATED_PY_PROTOS ${PY_PROTO})
 
-    message(DEBUG "AMACONTROLLER_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
-    add_dependencies(amadb_protos ${AMACONTROLLER_GENERATED_PY_PROTOS})
+#     message(DEBUG "AMACONTROLLER_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
+#     add_dependencies(amadb_protos ${AMACONTROLLER_GENERATED_PY_PROTOS})
 
-    # copy generated proto files to AMACONTROLLER_PROTO_DESTINATION
-    if(EXISTS ${AMACONTROLLER_PROTO_DESTINATION})
-      foreach(GENERATED_PROTOBUF_FILE ${AMACONTROOLLER_GENERATED_PROTOS})
-        add_custom_command(TARGET amacontroller_protos POST_BUILD
-          COMMAND ${CMAKE_COMMAND} -E copy ${GENERATED_PROTOBUF_FILE} ${AMACONTROLLER_PROTO_DESTINATION})
-      endforeach()
-    endif()
-  endif()
+#     # copy generated proto files to AMACONTROLLER_PROTO_DESTINATION
+#     if(EXISTS ${AMACONTROLLER_PROTO_DESTINATION})
+#       foreach(GENERATED_PROTOBUF_FILE ${AMACONTROOLLER_GENERATED_PROTOS})
+#         add_custom_command(TARGET amacontroller_protos POST_BUILD
+#           COMMAND ${CMAKE_COMMAND} -E copy ${GENERATED_PROTOBUF_FILE} ${AMACONTROLLER_PROTO_DESTINATION})
+#       endforeach()
+#     endif()
+#   endif()
 
-  if(CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
-    protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMACONTROLLER_PROTOBUF_FILES})
-    add_library(amacontroller_cxx_protos ${CXX_PROTO} ${CXX_PROTO_HEADERS})
-    add_dependencies(amacontroller_protos amacontroller_cxx_protos)
-  endif()
-endif()
+#   if(CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
+#     protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMACONTROLLER_PROTOBUF_FILES})
+#     add_library(amacontroller_cxx_protos ${CXX_PROTO} ${CXX_PROTO_HEADERS})
+#     add_dependencies(amacontroller_protos amacontroller_cxx_protos)
+#   endif()
+# endif()
 
-if(CMAKE_BUILD_AMAPROCESSOR_PROTO)
-  add_custom_target(amaprocessor_protos ALL)
-  protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMAPROCESSOR_PROTOBUF_FILES})
-  add_library(amaprocessor_cxx_protos ${CXX_PROTO} ${CXX_PROTO_HEADERS})
-  add_dependencies(amaprocessor_protos amaprocessor_cxx_protos)
-endif()
+# if(CMAKE_BUILD_AMAPROCESSOR_PROTO)
+#   add_custom_target(amaprocessor_protos ALL)
+#   protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMAPROCESSOR_PROTOBUF_FILES})
+#   add_library(amaprocessor_cxx_protos ${CXX_PROTO} ${CXX_PROTO_HEADERS})
+#   add_dependencies(amaprocessor_protos amaprocessor_cxx_protos)
+# endif()
