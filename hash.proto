@@ -5,16 +5,10 @@ message Hash {
   optional string type = 2;
   required string salt = 3 [default = ""];
   optional string plaintext = 4;
-  enum HashStatus {
+  enum state {
     UNCRACKED = 0;
     CRACKED = 1;
   }
-  required HashStatus status = 5 [default = UNCRACKED];
+  required state state = 5 [default = UNCRACKED];
+  optional string hashesfile = 6;
 }
-
-// message Credentials {
-//   string user = 1;
-//   string password = 2;
-//   string service = 3;
-//   string details = 4;
-// }

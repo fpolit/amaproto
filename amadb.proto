@@ -10,6 +10,7 @@ message RegisterHashRequest {
 }
 
 service AmaDB {
+  rpc create_workspace(Workspace) returns (ReturnStatus);
   rpc register_hash(RegisterHashRequest) returns (ReturnStatus);
   rpc get_loot_hashes(Workspace) returns (stream Hash);
 }

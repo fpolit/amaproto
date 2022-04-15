@@ -2,6 +2,11 @@ syntax = "proto2";
 
 message ReturnStatus {
   extensions 1000 to max;
-  required int32 status = 1 [default = 0];
+  enum state {
+    OK = 0;
+    WARNING = 1;
+    ERROR = 2;
+  }
+  required state state = 1 [default = OK];
   optional string details = 2;
 }
