@@ -63,12 +63,11 @@ endfunction()
 
 # AMADB protobuf files
 list(APPEND AMADB_PROTOBUF_MESSAGES
-  option.proto
   hash.proto
   utils.proto
   workspace.proto
   job.proto
-  requests.proto
+  amadb_requests.proto
 )
 list(APPEND AMADB_PROTOBUF_SERVICES
   amadb.proto

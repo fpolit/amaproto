@@ -1,0 +1,19 @@
+syntax='proto2';
+
+import "hash.proto";
+import "job.proto";
+import "workspace.proto";
+
+message RegisterHashRequest {
+  required Hash hash = 1;
+  required Workspace workspace = 2;
+}
+
+message HashesRequest {
+  required Workspace workspace = 1;
+  required Hash.State state = 2;
+}
+
+message JobFilterRequest {
+  optional Job.State state = 1;
+}
