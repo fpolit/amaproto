@@ -5,10 +5,10 @@ message Hash {
   optional string type = 2;
   required string salt = 3 [default = ""];
   optional string plaintext = 4;
-  enum state {
+  enum State {
     UNCRACKED = 0;
     CRACKED = 1;
   }
-  required state state = 5 [default = UNCRACKED];
+  required State state = 5 [default = UNCRACKED];
   optional string hashesfile = 6;
 }

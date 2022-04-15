@@ -11,7 +11,7 @@ message RegisterHashRequest {
 
 message HashesRequest {
   required Workspace workspace = 1;
-  required Hash.state state = 2;
+  required Hash.State state = 2;
 }
 
 service AmaDB {
