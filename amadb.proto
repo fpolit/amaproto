@@ -9,8 +9,16 @@ message RegisterHashRequest {
   required Workspace workspace = 2;
 }
 
+message HashesRequest {
+  required Workspace workspace = 1;
+  required Hash.state state = 2;
+}
+
 service AmaDB {
   rpc create_workspace(Workspace) returns (ReturnStatus);
   rpc register_hash(RegisterHashRequest) returns (ReturnStatus);
-  rpc get_loot_hashes(Workspace) returns (stream Hash);
+  rpc get_all_hashes(Workspace) returns (stream Hash);
+  rpc get_uncracked_hashes(Workspace) returns (stream Hash);
+  rpc get_cracked_hashes(Workspace) returns (stream Hash);
+  rpc get_hashes(HashesRequest) returns (stream Hash);
 }
