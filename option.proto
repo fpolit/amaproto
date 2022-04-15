@@ -7,8 +7,8 @@ import "google/protobuf/type.proto";
 message Option {
   extensions 1000 to max;
   required string name = 1;
-  required Value value = 2;
-  required Field.Kind type = 3;
+  required google.protobuf.Value value = 2;
+  required google.protobuf.Field.Kind type = 3;
   optional string description = 4;
   required bool require = 5;
 }

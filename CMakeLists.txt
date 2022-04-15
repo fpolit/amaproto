@@ -156,8 +156,8 @@ if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO OR CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
     add_library(amacontroller_cxx_protos SHARED ${CXX_PROTO} ${CXX_PROTO_HEADERS})
     target_link_libraries(amacontroller_cxx_protos ${Protobuf_LIBRARIES})
     target_include_directories(amacontroller_cxx_protos
-      PRIVATE ${Protobuf_INCLUDE_DIRS}
-      PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+      PUBLIC ${Protobuf_INCLUDE_DIRS}
+      PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
     )
     add_dependencies(amacontroller_protos amacontroller_cxx_protos)
   endif()
