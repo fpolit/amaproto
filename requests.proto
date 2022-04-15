@@ -1,5 +1,6 @@
 syntax='proto2';
 
+import "hash.proto";
 import "job.proto";
 import "workspace.proto";
 import "module.proto";
