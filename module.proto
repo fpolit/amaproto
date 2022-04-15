@@ -1,13 +1,6 @@
 syntax='proto2';
 
-import "google/protobuf/option.proto";
-import "google/protobuf/struct.proto";
-import "google/protobuf/type.proto";
-
-extend google.protobuf.Option {
-  required google.protobuf.Kind type = 1000 [default = TYPE_STRING];
-  repeated google.protobuf.ListValue choices = 1001;
-}
+import "option.proto";
 
 message Module {
   extensions 1000 to max;
@@ -16,5 +9,5 @@ message Module {
   required string md5sum = 3;
   optional string description = 4;
   optional string long_description = 5;
-  repeated google.protobuf.Option options = 6;
+  repeated Option options = 6;
 }
