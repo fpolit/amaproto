@@ -1,0 +1,9 @@
+syntax='proto2';
+
+import "workspace.proto";
+import "module.proto";
+
+message SubmitModuleRequest {
+  required Workspace workspace = 1;
+  required Module module = 2;
+}
