@@ -1,4 +1,4 @@
-syntax='proto2';
+syntax = "proto2";
 
 import "module.proto";
 import "utils.proto";
