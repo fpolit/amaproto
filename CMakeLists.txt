@@ -26,7 +26,7 @@ option(CMAKE_BUILD_AMAPROCESSOR_PROTO  "Build amaprocessor protobuf files" OFF )
 
 # Finding dependencies
 find_package(Protobuf REQUIRED)
-find_package(Python3  COMPONENTS Interpreter REQUIRED)
+find_package(Python3  COMPONENTS Interpreter Development REQUIRED)
 
 # enviroment information
 message(DEBUG "PROJECT_AMAPROTO_VERSION: ${PROJECT_AMAPROTO_VERSION}")
