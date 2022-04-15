@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+import "google/protobuf/timestamp.proto";
+
+message Job {
+  extensions 1000 to max;
+  required uint64 jobid = 1;
+  required string name = 2;
+  required string module = 3;
+  optional int32 priority = 4 [default = 0];
+  required google.protobuf.Timestamp submit_time = 5;
+  optional google.protobuf.Timestamp delay = 6;
+  enum State {
+    RUNNING = 0;
+    PENDING = 1;
+    COMPLETED = 2;
+    FAILED = 3;
+  }
+  required State sate = 7 [default = PENDING];
+  optional string reason = 8;
+  repeated uint64 depends = 9;
+  optional string outfile = 10;
+  required string partition = 11;
+  repeated string nodes = 12;
+}
