@@ -36,10 +36,6 @@ message(DEBUG "CMAKE_BUILD_AMACONTROLLER_PY_PROTO: ${CMAKE_BUILD_AMACONTROLLER_P
 message(DEBUG "CMAKE_BUILD_AMACONTROLLER_CXX_PROTO: ${CMAKE_BUILD_AMACONTROLLER_CXX_PROTO}")
 message(DEBUG "CMAKE_BUILD_AMAPROCESSOR_PROTO: ${CMAKE_BUILD_AMAPROCESSOR_PROTO}")
 
-INCLUDE_DIRECTORIES(
-  ${Protobuf_INCLUDE_DIRS}
-  ${CMAKE_CURRENT_SOURCE_DIR}
-)
 
 # generate pb2_grpc (client and server python classes) to CMAKE_CURRENT_BINARY_DIR directory
 function(protobuf_service_generate_python PY_PROTO PROTOBUF_FILES)
@@ -100,36 +96,36 @@ list(APPEND AMAPROCESSOR_PROTOBUF_FILES
 )
 
 
-if(CMAKE_BUILD_AMADB_PY_PROTO OR CMAKE_BUILD_AMADB_CXX_PROTO)
-  add_custom_target(amadb_protos ALL)
-  if(CMAKE_BUILD_AMADB_PY_PROTO)
-    protobuf_generate_python(PY_PROTO ${AMADB_PROTOBUF_MESSAGES}) # generate only message protos
-    list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
+# if(CMAKE_BUILD_AMADB_PY_PROTO OR CMAKE_BUILD_AMADB_CXX_PROTO)
+#   add_custom_target(amadb_protos ALL)
+#   if(CMAKE_BUILD_AMADB_PY_PROTO)
+#     protobuf_generate_python(PY_PROTO ${AMADB_PROTOBUF_MESSAGES}) # generate only message protos
+#     list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
 
-    protobuf_service_generate_python(PY_PROTO ${AMADB_PROTOBUF_SERVICES})
-    list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
+#     protobuf_service_generate_python(PY_PROTO ${AMADB_PROTOBUF_SERVICES})
+#     list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
 
-    message(DEBUG "AMADB_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
-    add_custom_target(amadb_py_protos ALL
-      DEPENDS ${AMADB_GENERATED_PY_PROTOS})
-    add_dependencies(amadb_protos amadb_py_protos)
+#     message(DEBUG "AMADB_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
+#     add_custom_target(amadb_py_protos ALL
+#       DEPENDS ${AMADB_GENERATED_PY_PROTOS})
+#     add_dependencies(amadb_protos amadb_py_protos)
 
-    #copy generated proto files to AMADB_PROTO_DESTINATION
-    if(EXISTS ${AMADB_PY_PROTO_DESTINATION})
-      foreach(GENERATED_PROTOBUF_FILE ${AMADB_GENERATED_PY_PROTOS})
-        add_custom_command(TARGET amadb_py_protos POST_BUILD
-          COMMAND ${CMAKE_COMMAND} -E copy ${GENERATED_PROTOBUF_FILE} ${AMADB_PY_PROTO_DESTINATION})
-      endforeach()
-    endif()
-  endif()
+#     #copy generated proto files to AMADB_PROTO_DESTINATION
+#     if(EXISTS ${AMADB_PY_PROTO_DESTINATION})
+#       foreach(GENERATED_PROTOBUF_FILE ${AMADB_GENERATED_PY_PROTOS})
+#         add_custom_command(TARGET amadb_py_protos POST_BUILD
+#           COMMAND ${CMAKE_COMMAND} -E copy ${GENERATED_PROTOBUF_FILE} ${AMADB_PY_PROTO_DESTINATION})
+#       endforeach()
+#     endif()
+#   endif()
 
-  if(CMAKE_BUILD_AMADB_CXX_PROTO)
-    protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMADB_PROTOBUF_FILES})
-    add_library(amadb_cxx_protos SHARED ${CXX_PROTO} ${CXX_PROTO_HEADERS})
-    target_link_libraries(amadb_cxx_protos protobuf::libprotobuf)
-    add_dependencies(amadb_protos amadb_cxx_protos)
-  endif()
-endif()
+#   if(CMAKE_BUILD_AMADB_CXX_PROTO)
+#     protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMADB_PROTOBUF_FILES})
+#     add_library(amadb_cxx_protos SHARED ${CXX_PROTO} ${CXX_PROTO_HEADERS})
+#     target_link_libraries(amadb_cxx_protos protobuf::libprotobuf)
+#     add_dependencies(amadb_protos amadb_cxx_protos)
+#   endif()
+# endif()
 
 if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO OR CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
   add_custom_target(amacontroller_protos ALL)
@@ -158,7 +154,10 @@ if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO OR CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
     protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMACONTROLLER_PROTOBUF_FILES})
     add_library(amacontroller_cxx_protos SHARED ${CXX_PROTO} ${CXX_PROTO_HEADERS})
     target_link_libraries(amacontroller_cxx_protos ${Protobuf_LIBRARIES})
-    target_include_directories(amacontroller_cxx_protos PRIVATE ${Protobuf_INCLUDE_DIRS})
+    target_include_directories(amacontroller_cxx_protos
+      PRIVATE ${Protobuf_INCLUDE_DIRS}
+      PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+    )
     add_dependencies(amacontroller_protos amacontroller_cxx_protos)
   endif()
 endif()
