@@ -9,22 +9,28 @@ import "requests.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 
-service AmaDB {
-  // jobs rpc calls
-  rpc register_job(Job) returns (ReturnStatus);
-  rpc get_all_jobs(google.protobuf.Empty) returns (stream Job);
-  rpc get_job(google.protobuf.UInt64Value) returns (Job);
-  rpc filter_jobs(JobFilterRequest) returns (stream Job);
+// service to get common information about amadb component
+service AmaDBCommon {
+  rpc get_version(google.protobuf.Empty) returns (google.protobuf.StringValue);
+}
 
-  // workspace rpc calls
-  rpc create_workspace(Workspace) returns (ReturnStatus);
-  rpc rename_workspace(Workspace) returns (ReturnStatus);
-  rpc delete_workspace(Workspace) returns (ReturnStatus);
-
-  // hashes rpc calls
+service AmaDBHashes {
   rpc register_hash(RegisterHashRequest) returns (ReturnStatus);
   rpc get_all_hashes(Workspace) returns (stream Hash);
   rpc get_uncracked_hashes(Workspace) returns (stream Hash);
   rpc get_cracked_hashes(Workspace) returns (stream Hash);
   rpc get_hashes(HashesRequest) returns (stream Hash);
+}
+
+service AmaDBWorkspaces {
+  rpc create_workspace(Workspace) returns (ReturnStatus);
+  rpc rename_workspace(Workspace) returns (ReturnStatus);
+  rpc delete_workspace(Workspace) returns (ReturnStatus);
+}
+
+service AmaDBJobs {
+  rpc register_job(Job) returns (ReturnStatus);
+  rpc get_all_jobs(google.protobuf.Empty) returns (stream Job);
+  rpc get_job(google.protobuf.UInt64Value) returns (Job);
+  rpc filter_jobs(JobFilterRequest) returns (stream Job);
 }

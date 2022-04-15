@@ -7,6 +7,7 @@ project(amaproto
 )
 
 set(PROJECT_LICENSE "GPLv3")
+set(CMAKE_PROJECT_AMAPROTO_VERSION ${CMAKE_PROJECT_VERSION} PARENT_SCOPE) # amaproto version to parent cmakes files
 
 option(CMAKE_COMPILER_WALL "Warning all" ON)
 if(${CMAKE_COMPILER_WALL})
@@ -25,6 +26,7 @@ find_package(Protobuf REQUIRED)
 find_package(Python3  COMPONENTS Interpreter REQUIRED)
 
 # enviroment information
+message(DEBUG "PROJECT_AMAPROTO_VERSION: ${PROJECT_AMAPROTO_VERSION}")
 message(DEBUG "CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 message(DEBUG "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
 message(DEBUG "Python_VERSION: ${Python_VERSION}")
