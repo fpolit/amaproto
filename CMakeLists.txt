@@ -61,6 +61,8 @@ list(APPEND AMADB_PROTOBUF_MESSAGES
   hash.proto
   utils.proto
   workspace.proto
+  job.proto
+  requests.proto
 )
 
 list(APPEND AMADB_PROTOBUF_SERVICES
@@ -76,6 +78,7 @@ list(APPEND AMACONTROLLER_PROTOBUF_MESSAGES
   workspace.proto
   module.proto
   utils.proto
+  job.proto
   requests.proto
 )
 list(APPEND AMACONTROLLER_PROTOBUF_SERVICES
