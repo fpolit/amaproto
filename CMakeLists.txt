@@ -64,17 +64,14 @@ list(APPEND AMADB_PROTOBUF_MESSAGES
   job.proto
   requests.proto
 )
-
 list(APPEND AMADB_PROTOBUF_SERVICES
   amadb.proto
 )
-
 list(APPEND AMADB_PROTOBUF_FILES ${AMADB_PROTOBUF_MESSAGES} ${AMADB_PROTOBUF_SERVICES})
 
 
 # AMACONTROLLER protobuf files
 list(APPEND AMACONTROLLER_PROTOBUF_MESSAGES
-  option.proto
   workspace.proto
   module.proto
   utils.proto
@@ -89,7 +86,6 @@ list(APPEND AMACONTROLLER_PROTOBUF_FILES ${AMACONTROLLER_PROTOBUF_MESSAGES} ${AM
 
 # AMAPROCESSOR protobuf files
 list(APPEND AMAPROCESSOR_PROTOBUF_FILES
-  option.proto
   utils.proto
   requests.proto
   module.proto
