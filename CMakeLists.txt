@@ -39,7 +39,6 @@ message(DEBUG "CMAKE_BUILD_AMAPROCESSOR_PROTO: ${CMAKE_BUILD_AMAPROCESSOR_PROTO}
 INCLUDE_DIRECTORIES(
   ${Protobuf_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 # generate pb2_grpc (client and server python classes) to CMAKE_CURRENT_BINARY_DIR directory
@@ -129,6 +128,7 @@ if(CMAKE_BUILD_AMADB_PY_PROTO OR CMAKE_BUILD_AMADB_CXX_PROTO)
   if(CMAKE_BUILD_AMADB_CXX_PROTO)
     protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMADB_PROTOBUF_FILES})
     add_library(amadb_cxx_protos SHARED ${CXX_PROTO} ${CXX_PROTO_HEADERS})
+    target_link_directories(amadb_cxx_protos ${Protobuf_LIBRARIES})
     add_dependencies(amadb_protos amadb_cxx_protos)
   endif()
 endif()
@@ -159,6 +159,7 @@ if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO OR CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
   if(CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
     protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMACONTROLLER_PROTOBUF_FILES})
     add_library(amacontroller_cxx_protos SHARED ${CXX_PROTO} ${CXX_PROTO_HEADERS})
+    target_link_directories(amacontroller_cxx_protos ${Protobuf_LIBRARIES})
     add_dependencies(amacontroller_protos amacontroller_cxx_protos)
   endif()
 endif()
@@ -167,5 +168,6 @@ if(CMAKE_BUILD_AMAPROCESSOR_PROTO)
   add_custom_target(amaprocessor_protos ALL)
   protobuf_generate_cpp(CXX_PROTO CXX_PROTO_HEADERS ${AMAPROCESSOR_PROTOBUF_FILES})
   add_library(amaprocessor_cxx_protos SHARED ${CXX_PROTO} ${CXX_PROTO_HEADERS})
+  target_link_directories(amaprocessor_cxx_protos ${Protobuf_LIBRARIES})
   add_dependencies(amaprocessor_protos amaprocessor_cxx_protos)
 endif()
