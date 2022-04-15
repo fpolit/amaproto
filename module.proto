@@ -1,6 +1,8 @@
 syntax='proto2';
 
-import "google.protobuf.Option.proto";
+import "google/protobuf/option.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/type.proto";
 
 extend google.protobuf.Option {
   required google.protobuf.Kind type = 1000 [default = TYPE_STRING];
