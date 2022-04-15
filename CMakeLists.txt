@@ -186,7 +186,7 @@ endif()
 if(CMAKE_BUILD_TESTS)
   enable_testing()
   add_subdirectory(tests)
-  Python_add_library(ama_protos ${AMA_GENERATED_PY_PROTOS}) # temporal python module to test generated python protobuf files
+  #Python_add_library(ama_protos ${AMA_GENERATED_PY_PROTOS}) # temporal python module to test generated python protobuf files
   add_custom_target(pytest
     COMMAND ${Python3_EXECUTABLE} -m pytest -v ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 endif()
