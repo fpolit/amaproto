@@ -38,14 +38,10 @@ pipeline{
                 '''
             }
         }
-        stage('Install'){
-            steps {
-                sh 'sudo make -C build install'
-            }
-        }
 
         stage('Tests') {
             steps {
+		sh 'make -C build test'
                 sh 'make -C build pytest'
             }
         }
