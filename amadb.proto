@@ -12,8 +12,8 @@ service AmaDB {
   // jobs rpc calls
   rpc register_job(Job) returns (ReturnStatus);
   rpc get_all_jobs(google.protobuf.Empty) returns (stream Job);
-  rpc get_job_info(JobInfoRequest) returns (Job);
-  rpc get_jobs(JobRequest) returns (stream Job);
+  rpc get_job(google.protobuf.UInt64Value) returns (Job);
+  rpc filter_jobs(JobFilterRequest) returns (stream Job);
 
   // workspace rpc calls
   rpc create_workspace(Workspace) returns (ReturnStatus);

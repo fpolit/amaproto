@@ -2,8 +2,17 @@ syntax='proto2';
 
 import "option.proto";
 
+extend google.protobuf.Option {
+  required google.protobuf.Kind type = 1000 [default = TYPE_STRING];
+  repeated google.protobuf.ListValue choices = 1001;
+}
+
 message Module {
   extensions 1000 to max;
   required string name = 1;
-  map<string, Option> options = 2;
+  required string version = 2;
+  required string md5sum = 3;
+  optional string description = 4;
+  optional string long_description = 5;
+  repeated google.protobuf.Option options = 6;
 }

@@ -20,10 +20,6 @@ message HashesRequest {
   required Hash.State state = 2;
 }
 
-message JobInfoRequest {
-  required uint64 jobid = 1;
-}
-
-message JobRequest {
+message JobFilterRequest {
   optional Job.State state = 1;
 }
