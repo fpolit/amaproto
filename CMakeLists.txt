@@ -7,9 +7,12 @@ project(amaproto
 )
 
 set(PROJECT_LICENSE "GPLv3")
+set(CMAKE_SHARED_MODULE_PREFIX "")
 set(CMAKE_PROJECT_AMAPROTO_VERSION ${CMAKE_PROJECT_VERSION} PARENT_SCOPE) # amaproto version to parent cmakes files
 
+option(CMAKE_BUILD_TESTS  "Build protobuf tests" OFF)
 option(CMAKE_COMPILER_WALL "Warning all" ON)
+
 if(${CMAKE_COMPILER_WALL})
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 endif()
@@ -113,6 +116,7 @@ if(CMAKE_BUILD_AMADB_PY_PROTO OR CMAKE_BUILD_AMADB_CXX_PROTO)
     protobuf_service_generate_python(PY_PROTO ${AMADB_PROTOBUF_SERVICES})
     list(APPEND AMADB_GENERATED_PY_PROTOS ${PY_PROTO})
 
+    list(APPEND AMA_GENERATE_PY_PROTOS ${AMADB_GENERATED_PY_PROTOS})
     message(DEBUG "AMADB_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
     add_custom_target(amadb_py_protos ALL
       DEPENDS ${AMADB_GENERATED_PY_PROTOS})
@@ -144,6 +148,7 @@ if(CMAKE_BUILD_AMACONTROLLER_PY_PROTO OR CMAKE_BUILD_AMACONTROLLER_CXX_PROTO)
     protobuf_service_generate_python(PY_PROTO ${AMACONTROLLER_PROTOBUF_SERVICES})
     list(APPEND AMACONTROLLER_GENERATED_PY_PROTOS ${PY_PROTO})
 
+    list(APPEND AMA_GENERATE_PY_PROTOS ${AMACONTROLLER_GENERATED_PY_PROTOS})
     message(DEBUG "AMACONTROLLER_GENERATED_PY_PROTOS: ${AMADB_GENERATED_PY_PROTOS}")
     add_custom_target(amacontroller_py_protos ALL
       DEPENDS ${AMACONTROLLER_GENERATED_PY_PROTOS})
@@ -172,4 +177,13 @@ if(CMAKE_BUILD_AMAPROCESSOR_PROTO)
   add_library(amaprocessor_cxx_protos SHARED ${CXX_PROTO} ${CXX_PROTO_HEADERS})
   target_link_libraries(amaprocessor_cxx_protos ${Protobuf_LIBRARIES})
   add_dependencies(amaprocessor_protos amaprocessor_cxx_protos)
+endif()
+
+
+if(CMAKE_BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(tests)
+  Python_add_library(ama_protos ${AMA_GENERATED_PY_PROTOS}) # temporal python module to test generated python protobuf files
+  add_custom_target(pytest
+    COMMAND ${Python3_EXECUTABLE} -m pytest -v ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 endif()
