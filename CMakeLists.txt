@@ -96,7 +96,9 @@ list(APPEND AMAPROCESSOR_PROTOBUF_FILES
   option.proto
   utils.proto
   amaproc_requests.proto
+  amactl_requests.proto
   module.proto
+  workspace.proto
   amaproc.proto
   hash.proto
 )

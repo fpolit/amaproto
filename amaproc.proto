@@ -3,6 +3,7 @@ syntax = "proto2";
 import "module.proto";
 import "utils.proto";
 import "amaproc_requests.proto";
+import "amactl_requests.proto";
 
 message ModuleFilter {
   optional string name = 1;
