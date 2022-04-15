@@ -80,6 +80,7 @@ list(APPEND AMACONTROLLER_PROTOBUF_MESSAGES
   utils.proto
   job.proto
   requests.proto
+  hash.proto
 )
 list(APPEND AMACONTROLLER_PROTOBUF_SERVICES
   amactl.proto
@@ -93,6 +94,7 @@ list(APPEND AMAPROCESSOR_PROTOBUF_FILES
   requests.proto
   module.proto
   amaproc.proto
+  hash.proto
 )
 
 
