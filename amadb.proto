@@ -5,11 +5,12 @@ import "workspace.proto";
 import "utils.proto";
 import "requests.proto";
 
+import "google/protobuf/empty.proto";
 
 service AmaDB {
   // jobs rpc calls
   rpc register_job(Job) returns (ReturnStatus);
-  rpc get_all_jobs() returns (stream Job);
+  rpc get_all_jobs(google.protobuf.Empty) returns (stream Job);
   rpc get_job_info(JobInfoRequest) returns (Job);
   rpc get_jobs(JobRequest) returns (stream Job);
 
