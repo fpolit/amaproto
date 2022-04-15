@@ -58,6 +58,7 @@ endfunction()
 
 # AMADB protobuf files
 list(APPEND AMADB_PROTOBUF_MESSAGES
+  option.proto
   hash.proto
   utils.proto
   workspace.proto

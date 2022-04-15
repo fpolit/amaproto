@@ -10,6 +10,7 @@ message SubmitModuleRequest {
   required Module module = 2;
 }
 
+
 message RegisterHashRequest {
   required Hash hash = 1;
   required Workspace workspace = 2;

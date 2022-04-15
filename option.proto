@@ -1,11 +1,13 @@
 syntax='proto2';
 
 import "google/protobuf/struct.proto";
+import "google/protobuf/type.proto";
 
 message Option {
   extensions 1000 to max;
   required string name = 1;
   required Value value = 2;
-  optional string description = 3;
-  required bool required = 4;
+  required Kind type = 3;
+  optional string description = 4;
+  required bool require = 5;
 }
