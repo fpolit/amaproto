@@ -38,12 +38,5 @@ pipeline{
                 '''
             }
         }
-
-        stage('Tests') {
-            steps {
-		sh 'make -C build test'
-                sh 'make -C build pytest'
-            }
-        }
     }
 }
