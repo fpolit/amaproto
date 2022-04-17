@@ -1,9 +1,10 @@
 #!/bin/bash
+#
+# Simple bash script to build ama protobuf files
+
 
 CLEAN=1
 GFILES=(build)  # generated files and directories
-RUNTESTS=1
-INSTALL=1
 BUILD_DIR=build
 
 if [[ $CLEAN -eq 1 ]]; then
@@ -23,12 +24,3 @@ cmake -S . -B $BUILD_DIR -DCMAKE_BUILD_TYPE=Debug \
 
 
 make -C $BUILD_DIR
-
-if [[ $INSTALL -eq 1 ]]; then
-    make -C $BUILD_DIR install
-fi
-
-if [[ $? -eq 0 && $RUNTESTS -eq 1 ]]; then
-    make -C $BUILD_DIR pytest
-    make -C $BUILD_DIR test # C/CXX tests
-fi

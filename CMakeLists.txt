@@ -89,6 +89,7 @@ list(APPEND AMACONTROLLER_PROTOBUF_MESSAGES
   module.proto
   utils.proto
   job.proto
+  amadb_requests.proto
   amactl_requests.proto
 )
 list(APPEND AMACONTROLLER_PROTOBUF_SERVICES
@@ -100,12 +101,13 @@ list(APPEND AMACONTROLLER_PROTOBUF_FILES ${AMACONTROLLER_PROTOBUF_MESSAGES} ${AM
 list(APPEND AMAPROCESSOR_PROTOBUF_FILES
   option.proto
   utils.proto
-  amaproc_requests.proto
-  amactl_requests.proto
   module.proto
   workspace.proto
-  amaproc.proto
   hash.proto
+  amadb_requests.proto
+  amaproc_requests.proto
+  amactl_requests.proto
+  amaproc.proto
 )
 
 
