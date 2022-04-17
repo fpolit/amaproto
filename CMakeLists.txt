@@ -10,7 +10,6 @@ set(PROJECT_LICENSE "GPLv3")
 set(CMAKE_SHARED_MODULE_PREFIX "")
 set(CMAKE_PROJECT_AMAPROTO_VERSION ${CMAKE_PROJECT_VERSION} PARENT_SCOPE) # amaproto version to parent cmakes files
 
-option(CMAKE_BUILD_TESTS  "Build protobuf tests" OFF)
 option(CMAKE_COMPILER_WALL "Warning all" ON)
 
 if(${CMAKE_COMPILER_WALL})
@@ -180,13 +179,4 @@ if(CMAKE_BUILD_AMAPROCESSOR_PROTO)
   add_library(amaprocessor_cxx_protos SHARED ${CXX_PROTO} ${CXX_PROTO_HEADERS})
   target_link_libraries(amaprocessor_cxx_protos ${Protobuf_LIBRARIES})
   add_dependencies(amaprocessor_protos amaprocessor_cxx_protos)
-endif()
-
-
-if(CMAKE_BUILD_TESTS)
-  enable_testing()
-  add_subdirectory(tests)
-  #Python_add_library(ama_protos ${AMA_GENERATED_PY_PROTOS}) # temporal python module to test generated python protobuf files
-  add_custom_target(pytest
-    COMMAND ${Python3_EXECUTABLE} -m pytest -v ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 endif()
